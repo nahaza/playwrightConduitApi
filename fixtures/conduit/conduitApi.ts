@@ -36,7 +36,6 @@ export const test = base.extend<ApiControllers>({
           },
           failOnStatusCode: true,
         });
-console.log('Login response status:', await response.json());
 
         const responseJson: UserResponse = await response.json();
         const token = responseJson.user.token;
