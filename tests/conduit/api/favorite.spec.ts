@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { test } from "../../../fixtures/conduit/conduitApi";
 import { expect } from "@playwright/test";
-import { UserResponse } from "../../../app/conduit/api/controllers/users/UserTypes";
 import { Article } from "../../../app/conduit/api/controllers/articles/ArticleTypes";
 
 test.use({ userToLoginEmail: process.env.CONDUIT_DEFAULT_EMAIL });
