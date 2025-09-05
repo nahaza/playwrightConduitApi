@@ -73,4 +73,29 @@ test.describe("Tags are displayed in article and in the list of tags", () => {
 
     expect(tags).toEqual(expect.arrayContaining(articleData.tagList!));
   });
+
+  test("Delete article with tags and verify tags are not in the list of tags", async ({ client }) => {
+    const articleData: Article = {
+      title: faker.lorem.sentence(),
+      description: faker.lorem.sentence(),
+      body: faker.lorem.paragraphs(5),
+      tagList: [`qa1${Date.now()}`, `qa2${Date.now()}`],
+    };
+    const createResponse = await client.articles.createArticle(articleData);
+    expect(createResponse.status()).toBe(200);
+
+    const createdArticle = (await createResponse.json()).article;
+    const slug = createdArticle.slug;
+
+    const deleteResponse = await client.articles.deleteArticle(slug);
+    expect(deleteResponse.status()).toBe(204);
+
+    const tagsResponse = await client.tags.getTags();
+    expect(tagsResponse.status()).toBe(200);
+
+    const tagsResponseBody = await tagsResponse.json();
+    const tags: string[] = tagsResponseBody.tags;
+
+    expect(tags).not.toEqual(expect.arrayContaining(articleData.tagList!));
+  });
 });
